@@ -54,7 +54,7 @@ if(NOT OpenGLES_FIND_COMPONENTS)
     set(OpenGLES_FIND_COMPONENTS V2)
 endif()
 
-if(NOT ANDROID)
+if(NOT ANDROID AND NOT EMSCRIPTEN)
     find_package(PkgConfig QUIET)
     if(PKG_CONFIG_FOUND)
         set(_old_prefix_path "${CMAKE_PREFIX_PATH}")
@@ -188,7 +188,7 @@ find_package_handle_standard_args(
     HANDLE_COMPONENTS)
 if(OpenGLES_FOUND)
     if(OpenGLES_V1_FOUND AND NOT TARGET OpenGLES::OpenGLESv1)
-        add_library(OpenGLES::OpenGLESv1 SHARED IMPORTED)
+        add_library(OpenGLES::OpenGLESv1 STATIC IMPORTED)
 
         set_target_properties(
             OpenGLES::OpenGLESv1
@@ -198,7 +198,7 @@ if(OpenGLES_FOUND)
                        IMPORTED_LOCATION ${OpenGLES_V1_LIBRARY})
     endif()
     if(OpenGLES_V2_FOUND AND NOT TARGET OpenGLES::OpenGLESv2)
-        add_library(OpenGLES::OpenGLESv2 SHARED IMPORTED)
+        add_library(OpenGLES::OpenGLESv2 STATIC IMPORTED)
 
         set_target_properties(
             OpenGLES::OpenGLESv2
@@ -209,7 +209,7 @@ if(OpenGLES_FOUND)
     endif()
     if(OpenGLES_V3_FOUND)
         if(NOT TARGET OpenGLES::OpenGLESv3)
-            add_library(OpenGLES::OpenGLESv3 SHARED IMPORTED)
+            add_library(OpenGLES::OpenGLESv3 STATIC IMPORTED)
 
             set_target_properties(
                 OpenGLES::OpenGLESv3
@@ -219,7 +219,7 @@ if(OpenGLES_FOUND)
                            IMPORTED_LOCATION ${OpenGLES_V3_LIBRARY})
         endif()
         if(OpenGLES_V31_FOUND AND NOT TARGET OpenGLES::OpenGLESv31)
-            add_library(OpenGLES::OpenGLESv31 SHARED IMPORTED)
+            add_library(OpenGLES::OpenGLESv31 STATIC IMPORTED)
 
             set_target_properties(
                 OpenGLES::OpenGLESv31
@@ -229,7 +229,7 @@ if(OpenGLES_FOUND)
                            IMPORTED_LOCATION ${OpenGLES_V3_LIBRARY})
         endif()
         if(OpenGLES_V32_FOUND AND NOT TARGET OpenGLES::OpenGLESv32)
-            add_library(OpenGLES::OpenGLESv32 SHARED IMPORTED)
+            add_library(OpenGLES::OpenGLESv32 STATIC IMPORTED)
 
             set_target_properties(
                 OpenGLES::OpenGLESv32
