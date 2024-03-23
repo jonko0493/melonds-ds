@@ -19,8 +19,8 @@ project("melonDS DS"
     HOMEPAGE_URL "https://melonds.kuribo64.net"
     LANGUAGES C CXX)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unsafe-buffer-usage -pthread")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-unsafe-buffer-usage -pthread")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unsafe-buffer-usage")
+# set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-unsafe-buffer-usage -pthread")
 
 message(STATUS "Configuring a ${CMAKE_BUILD_TYPE} build.")
 
@@ -66,9 +66,9 @@ set(ENABLE_OGLRENDERER ${ENABLE_OPENGL})
 set(OPENGL_PROFILE ${DEFAULT_OPENGL_PROFILE} CACHE STRING "OpenGL profile to use if OpenGL is enabled. Valid values are 'OpenGL', 'OpenGLES2', 'OpenGLES3', 'OpenGLES31', and 'OpenGLES32'.")
 set_property(CACHE OPENGL_PROFILE PROPERTY STRINGS OpenGL OpenGLES2 OpenGLES3)
 
-if (ENABLE_OPENGL AND (NOT OPENGL_PROFILE STREQUAL "OpenGL"))
-    message(FATAL_ERROR "melonDS does not support OpenGL ES yet")
-endif()
+# if (ENABLE_OPENGL AND (NOT OPENGL_PROFILE STREQUAL "OpenGL"))
+#     message(FATAL_ERROR "melonDS does not support OpenGL ES yet")
+# endif()
 
 if (ANDROID)
     if (NOT ANDROID_PLATFORM)
