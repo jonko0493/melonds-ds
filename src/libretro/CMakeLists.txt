@@ -204,6 +204,8 @@ if (APPLE)
     set_target_properties(melondsds_libretro PROPERTIES SUFFIX ".dylib")
 elseif(ANDROID)
     set_target_properties(melondsds_libretro PROPERTIES SUFFIX "_android.so")
+elseif(EMSCRIPTEN)
+    set_target_properties(melondsds_libretro PROPERTIES SUFFIX ".bc")
 elseif (UNIX)
     set_target_properties(melondsds_libretro PROPERTIES SUFFIX ".so")
 elseif (WIN32)
@@ -233,7 +235,7 @@ target_compile_definitions(melondsds_libretro PUBLIC
     STB_IMAGE_STATIC # To avoid using any dynamically-linked STB implementations
 )
 
-target_link_libraries(melondsds_libretro PUBLIC libretro-common core libretro-assets glm::glm pntr fmt::fmt date)
+target_link_libraries(melondsds_libretro PUBLIC -Wl,--whole-archive libretro-common core libretro-assets glm::glm pntr fmt::fmt date -Wl,--no-whole-archive)
 
 if (HAVE_NETWORKING)
     target_compile_definitions(melondsds_libretro PUBLIC BUILDING_LIBSLIRP)

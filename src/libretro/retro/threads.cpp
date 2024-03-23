@@ -20,27 +20,39 @@
 #include <stdexcept>
 
 retro::slock::slock() {
+    #ifndef EMSCRIPTEN
     mutex = slock_new();
     if (!mutex) {
         throw std::bad_alloc();
     }
+    #endif
 }
 
 retro::slock::~slock() noexcept {
+    #ifndef EMSCRIPTEN
     if (mutex) {
         slock_free(mutex);
     }
     mutex = nullptr;
+    #endif
 }
 
 void retro::slock::lock() noexcept {
+    #ifndef EMSCRIPTEN
     slock_lock(mutex);
+    #endif
 }
 
 void retro::slock::unlock() noexcept {
+    #ifndef EMSCRIPTEN
     slock_unlock(mutex);
+    #endif
 }
 
 bool retro::slock::try_lock() noexcept {
+    #ifndef EMSCRIPTEN
     return slock_try_lock(mutex);
+    #else
+    return false;
+    #endif
 }

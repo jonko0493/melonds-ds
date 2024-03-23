@@ -14,7 +14,6 @@
     with melonDS DS. If not, see http://www.gnu.org/licenses/.
 */
 
-
 #ifndef MELONDS_DS_THREADS_HPP
 #define MELONDS_DS_THREADS_HPP
 

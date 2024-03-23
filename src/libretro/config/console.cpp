@@ -38,7 +38,9 @@
 #include "environment.hpp"
 #include "exceptions.hpp"
 #include "format.hpp"
+#ifndef EMSCRIPTEN
 #include "retro/http.hpp"
+#endif
 #include "retro/info.hpp"
 #include "types.hpp"
 
@@ -75,7 +77,9 @@ namespace MelonDsDs {
     static void GetTmdPath(const retro::GameInfo &nds_info, std::span<char> buffer);
     static optional<TitleMetadata> GetCachedTmd(string_view tmdPath) noexcept;
     static bool ValidateTmd(const TitleMetadata &tmd) noexcept;
+    #ifndef EMSCRIPTEN
     static optional<TitleMetadata> DownloadTmd(const NDSHeader& header, string_view tmdPath) noexcept;
+    #endif
     static bool CacheTmd(string_view tmd_path, std::span<const std::byte> tmd) noexcept;
     static void ImportDsiwareSaveData(NANDMount& nand, const retro::GameInfo& nds_info, const NDSHeader& header, int type) noexcept;
     static optional<Firmware> LoadFirmware(const string& firmwarePath) noexcept;
@@ -542,13 +546,17 @@ void MelonDsDs::InstallDsiware(NANDMount& mount, const retro::GameInfo& nds_info
         if (!tmd) {
             // If the TMD isn't available locally...
 
-#ifdef HAVE_NETWORKING
-            if (tmd = DownloadTmd(header, tmd_path); !tmd) {
-                // ...then download it and save it to disk. If that didn't work...
-                throw missing_metadata_exception("Cannot get title metadata for installation");
-            }
+#ifndef EMSCRIPTEN
+    #ifdef HAVE_NETWORKING
+                if (tmd = DownloadTmd(header, tmd_path); !tmd) {
+                    // ...then download it and save it to disk. If that didn't work...
+                    throw missing_metadata_exception("Cannot get title metadata for installation");
+                }
+    #else
+                throw missing_metadata_exception("Cannot get title metadata for installation, and this build does not support downloading it");
+    #endif
 #else
-            throw missing_metadata_exception("Cannot get title metadata for installation, and this build does not support downloading it");
+    throw missing_metadata_exception("Cannot get title metadata for installation, and this build does not support downloading it");
 #endif
         }
 
@@ -634,6 +642,7 @@ static bool MelonDsDs::ValidateTmd(const TitleMetadata &tmd) noexcept {
     return true;
 }
 
+#ifndef EMSCRIPTEN
 static optional<TitleMetadata> MelonDsDs::DownloadTmd(const NDSHeader &header, string_view tmdPath) noexcept {
     ZoneScopedN(TracyFunction);
     auto url = fmt::format(
@@ -704,6 +713,7 @@ static optional<TitleMetadata> MelonDsDs::DownloadTmd(const NDSHeader &header, s
 
     return tmd;
 }
+#endif
 
 static bool MelonDsDs::CacheTmd(string_view tmd_path, std::span<const std::byte> tmd) noexcept {
     ZoneScopedN(TracyFunction);

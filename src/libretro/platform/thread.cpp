@@ -36,7 +36,7 @@ static void function_trampoline(void *param) {
 }
 
 Thread *Platform::Thread_Create(std::function<void()> func) {
-#if HAVE_THREADS
+#ifndef EMSCRIPTEN
     return new Thread {
         sthread_create(function_trampoline, new ThreadData{std::move(func)})
     };
@@ -46,14 +46,14 @@ Thread *Platform::Thread_Create(std::function<void()> func) {
 }
 
 void Platform::Thread_Wait(Thread *thread) {
-#if HAVE_THREADS
+#ifndef EMSCRIPTEN
     sthread_join(thread->thread);
     thread->thread = nullptr;
 #endif
 }
 
 void Platform::Thread_Free(Thread *thread) {
-#if HAVE_THREADS
+#ifndef EMSCRIPTEN
     if (thread->thread) {
         sthread_join(thread->thread);
         thread->thread = nullptr;

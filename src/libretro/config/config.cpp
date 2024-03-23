@@ -930,11 +930,13 @@ bool MelonDsDs::RegisterCoreOptions() noexcept {
         retro_assert(firmwarePathDsiOption->default_value != nullptr);
     }
 
+    #ifndef EMSCRIPTEN
     bool pcapOk;
     {
         ZoneScopedN("LAN_PCap::Init");
         pcapOk = LAN_PCap::Init(false);
     }
+    #endif
 
 #ifdef HAVE_NETWORKING_DIRECT_MODE
     // holds on to strings used in dynamic options until we finish submitting the options to the frontend

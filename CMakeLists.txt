@@ -19,6 +19,9 @@ project("melonDS DS"
     HOMEPAGE_URL "https://melonds.kuribo64.net"
     LANGUAGES C CXX)
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unsafe-buffer-usage")
+# set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-unsafe-buffer-usage -pthread")
+
 message(STATUS "Configuring a ${CMAKE_BUILD_TYPE} build.")
 
 set(CMAKE_POSITION_INDEPENDENT_CODE TRUE)
@@ -53,7 +56,7 @@ else ()
     set(DEFAULT_ENABLE_OPENGL ON)
 endif ()
 
-if (ANDROID)
+if (ANDROID OR EMSCRIPTEN)
     set(DEFAULT_OPENGL_PROFILE OpenGLES2)
 else ()
     set(DEFAULT_OPENGL_PROFILE OpenGL)

@@ -15,6 +15,7 @@
 */
 
 #include "http.hpp"
+#ifndef EMSCRIPTEN
 
 #include <stdexcept>
 
@@ -80,3 +81,4 @@ std::span<const std::byte> retro::HttpConnection::Data(bool acceptError) const n
 
     return std::span((const std::byte*)payload, length);
 }
+#endif
