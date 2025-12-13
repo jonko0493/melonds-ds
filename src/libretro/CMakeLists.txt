@@ -131,6 +131,8 @@ target_include_directories(melondsds_libretro SYSTEM PUBLIC
 
 target_include_directories(melondsds_libretro PRIVATE "${CMAKE_SOURCE_DIR}/src/libretro")
 
+set(EMBED_OUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/embedded)
+
 embed_binaries(libretro-assets
     ASSET
         NAME "melondsds_vertex_shader"
@@ -162,15 +164,17 @@ embed_binaries(libretro-assets
 )
 
 set_source_files_properties(
-    ${CMAKE_CURRENT_BINARY_DIR}/embedded/melondsds_vertex_shader.c
-    ${CMAKE_CURRENT_BINARY_DIR}/embedded/melondsds_fragment_shader.c
-    ${CMAKE_CURRENT_BINARY_DIR}/embedded/melondsds_default_wfc_config.c
-    ${CMAKE_CURRENT_BINARY_DIR}/embedded/melondsds_graphic_error.c
-    ${CMAKE_CURRENT_BINARY_DIR}/embedded/melondsds_graphic_sorry.c
-    ${CMAKE_CURRENT_BINARY_DIR}/embedded/melondsds_error_title_font.c
-    ${CMAKE_CURRENT_BINARY_DIR}/embedded/melondsds_error_body_font.c
+    ${EMBED_OUT_DIR}/melondsds_vertex_shader.c
+    ${EMBED_OUT_DIR}/melondsds_fragment_shader.c
+    ${EMBED_OUT_DIR}/melondsds_default_wfc_config.c
+    ${EMBED_OUT_DIR}/melondsds_graphic_error.c
+    ${EMBED_OUT_DIR}/melondsds_graphic_sorry.c
+    ${EMBED_OUT_DIR}/melondsds_error_title_font.c
+    ${EMBED_OUT_DIR}/melondsds_error_body_font.c
     PROPERTIES GENERATED TRUE
 )
+
+add_dependencies(melondsds_libretro libretro-assets)
 
 add_common_definitions(melondsds_libretro)
 
