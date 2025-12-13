@@ -161,6 +161,8 @@ embed_binaries(libretro-assets
         PATH "assets/OpenSans_Condensed-SemiBold.ttf"
 )
 
+add_dependencies(melondsds_libretro libretro-assets)
+
 add_common_definitions(melondsds_libretro)
 
 if (ENABLE_THREADED_RENDERER)
