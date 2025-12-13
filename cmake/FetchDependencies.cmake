@@ -43,7 +43,7 @@ endfunction()
 
 fetch_dependency(melonDS "https://github.com/jonko0493/melonDS" "314a2a3")
 fetch_dependency(libretro-common "https://github.com/libretro/libretro-common" "ad9124f")
-fetch_dependency("embed-binaries" "https://github.com/andoalon/embed-binaries.git" "21f28ca")
+fetch_dependency("embed-binaries" "https://github.com/jonko0493/embed-binaries.git" "c791a20")
 fetch_dependency(glm "https://github.com/g-truc/glm" "2d4c4b4")
 fetch_dependency(libslirp "https://github.com/JesseTG/libslirp-mirror" "e61dbd4")
 fetch_dependency(pntr "https://github.com/robloach/pntr" "922aed0")
