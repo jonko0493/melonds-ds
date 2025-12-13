@@ -1,7 +1,6 @@
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-set(EMBED_BINARIES ON CACHE BOOL "Enable binary embedding" FORCE)
 include(embed-binaries)
 
 if (BUILD_AS_SHARED_LIBRARY)
