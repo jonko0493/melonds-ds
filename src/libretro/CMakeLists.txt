@@ -161,7 +161,22 @@ embed_binaries(libretro-assets
         PATH "assets/OpenSans_Condensed-SemiBold.ttf"
 )
 
-add_dependencies(melondsds_libretro libretro-assets)
+set(EMBEDDED_SOURCES
+    ${CMAKE_CURRENT_BINARY_DIR}/embedded/melondsds_vertex_shader.c
+    ${CMAKE_CURRENT_BINARY_DIR}/embedded/melondsds_fragment_shader.c
+    ${CMAKE_CURRENT_BINARY_DIR}/embedded/melondsds_default_wfc_config.c
+    ${CMAKE_CURRENT_BINARY_DIR}/embedded/melondsds_graphic_error.c
+    ${CMAKE_CURRENT_BINARY_DIR}/embedded/melondsds_graphic_sorry.c
+    ${CMAKE_CURRENT_BINARY_DIR}/embedded/melondsds_error_title_font.c
+    ${CMAKE_CURRENT_BINARY_DIR}/embedded/melondsds_error_body_font.c
+)
+
+add_custom_target(wait_for_embedded_files ALL
+    COMMAND ${CMAKE_COMMAND} -E sleep 1
+    DEPENDS libretro-assets
+)
+
+add_dependencies(melondsds_libretro wait_for_embedded_files)
 
 add_common_definitions(melondsds_libretro)
 
