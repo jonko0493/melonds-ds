@@ -63,7 +63,7 @@ void JoypadState::SetConfig(const CoreConfig& config) noexcept {
 
 void JoypadState::Update(const InputPollResult& poll) noexcept {
     ZoneScopedN(TracyFunction);
-    uint32_t ndsInputBits = 0xFFF; // Input bits passed to the emulated DS
+    uint32_t ndsInputBits = 0x1FFF; // Input bits passed to the emulated DS
 
     // Delicate bit manipulation; do not touch!
     ADD_KEY_TO_MASK(RETRO_DEVICE_ID_JOYPAD_A, 0, poll.JoypadButtons);
@@ -78,14 +78,15 @@ void JoypadState::Update(const InputPollResult& poll) noexcept {
     ADD_KEY_TO_MASK(RETRO_DEVICE_ID_JOYPAD_L, 9, poll.JoypadButtons);
     ADD_KEY_TO_MASK(RETRO_DEVICE_ID_JOYPAD_X, 10, poll.JoypadButtons);
     ADD_KEY_TO_MASK(RETRO_DEVICE_ID_JOYPAD_Y, 11, poll.JoypadButtons);
+    ADD_KEY_TO_MASK(RETRO_DEVICE_ID_JOYPAD_L3, 12, poll.JoypadButtons); // Debug button
 
     // We'll send these bits to the DS in Apply() later
     _consoleButtons = ndsInputBits;
 
     _joystickSpeedupCursorButton = poll.JoypadButtons & (1 << RETRO_DEVICE_ID_JOYPAD_L2);
 
-    _previousMicButton = _micButton;
-    _micButton = poll.JoypadButtons & (1 << RETRO_DEVICE_ID_JOYPAD_L3);
+    // _previousMicButton = _micButton;
+    // _micButton = poll.JoypadButtons & (1 << RETRO_DEVICE_ID_JOYPAD_L3);
 
     _previousToggleLidButton = _toggleLidButton;
     if (_joystickSpeedupCursorButton){
@@ -146,7 +147,7 @@ void JoypadState::Apply(ScreenLayoutData& layout) const noexcept {
 }
 
 void JoypadState::Apply(MicrophoneState& mic) const noexcept {
-    mic.SetMicButtonState(_micButton);
+    // mic.SetMicButtonState(_micButton);
 }
 
 void JoypadState::SetControllerPortDevice(unsigned int port, unsigned int device) noexcept {
